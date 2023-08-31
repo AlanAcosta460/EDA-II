@@ -3,17 +3,17 @@ def bubbleSortMejorado(A, n):
     pasada = 0
     while pasada < n and bandera:
         bandera = False
-        print(f"Pasada {pasada + 1}")
+        print(f"\nPasada {pasada + 1}")
         print(A)
         for j in range (0, n - pasada - 1):
-              print(A)
-              if A[j] > A[j + 1]:
-                bandera = 1
+            print(A)
+            if A[j] > A[j + 1]:
+                bandera = True
                 temp = A[j]
                 A[j] = A[j + 1]
                 A[j + 1] = temp
-        pasada = pasada + 1
-              
+        pasada += 1
+
 print("Lista 1")
 A = [8,20,2,39,11,34,22,5,2,0]
 bubbleSortMejorado(A, 10)

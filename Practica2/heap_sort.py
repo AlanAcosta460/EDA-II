@@ -7,9 +7,7 @@ def hDer(i):
     return 2*i+2
 
 def intercambiar(A, x, y):
-    tmp = A[x]
-    A[x] = A[y]
-    A[y] = tmp
+    A[x], A[y] = A[y], A[x]
     
 def MaxHeapify(A, i, tamanoHeap):
     L = hIzq(i)
@@ -39,10 +37,8 @@ def OrdenacionHeapSort(A, tamanoHeap):
         MaxHeapify(A, 0, tamanoHeap)
         print("\nReconstruccion del Heap Max: ", A[0:tamanoHeap])
 
-lista = [11, 16, 2, 8, 20, 13, 7, 18, 10, 15, 12, 1, 17, 3, 9, 5, 6, 19, 4, 14]
-
-print("*** Heap Sort ***")
-
+lista = [15, 19, 4, 2, 17, 14, 12, 7, 5, 16, 20, 8, 18, 1, 13, 9, 3, 6, 10, 11]
+print("---Heap Sort---")
+print(f"Lista original: {lista}")
 OrdenacionHeapSort(lista, len(lista))
-
-print(f"\nLista ordenada: \n{lista}")
+print(f"\nLista ordenada: {lista}")

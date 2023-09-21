@@ -1,4 +1,3 @@
-# Acosta Porcayo Alan Omar
 def insertar(T,m,x,valor):
     j = 0
     h1 = h(convertirLlave(x), m)

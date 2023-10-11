@@ -61,10 +61,46 @@ class Grafo:
         for v in self.vertices:
             print(f"Vertice {v}. Descubrimeinto/Termino: {self.vertices[v].d}/{self.vertices[v].f}. Predecesor: {self.vertices[v].predNombre}")
 
-    def componentesFuertementeConexas(sellf):
-        a = [1, 2, 3, 4, 5, 6, 7, 8, 9]
-        return a
-    
+    def obtenerComponentesFuertementeConexas(self):
+        self.dfs()
+        grafo_invertido = self.invertirGrafo()
+        for v in self.vertices:
+            self.vertices[v].color = "white"
+        global tiempo
+        tiempo = 0
+        scc_list = []
+        for vertice_nombre in self.ordenT:
+            vertice = grafo_invertido.vertices[vertice_nombre]
+            if vertice.color == "white":
+                scc = []
+                self.dfsVisitarSCC(vertice, scc)
+                scc_list.append(scc)
+        return scc_list
+
+    def invertirGrafo(self):
+        grafo_invertido = Grafo(0)
+        for v in self.vertices:
+            grafo_invertido.agregarVertice(v)
+        for v in self.vertices:
+            for vecino in self.vertices[v].vecinos:
+                grafo_invertido.agregarArista(vecino, v)
+        return grafo_invertido
+
+    def dfsVisitarSCC(self, vertice, scc):
+        global tiempo
+        tiempo += 1
+        vertice.d = tiempo
+        vertice.color = "gray"
+        scc.append(vertice.nombre)
+        for vecino_nombre in vertice.vecinos:
+            if self.vertices[vecino_nombre].color == "white":
+                self.vertices[vecino_nombre].pred = vertice
+                self.vertices[vecino_nombre].predNombre = vertice.nombre
+                self.dfsVisitarSCC(self.vertices[vecino_nombre], scc)
+        vertice.color = "black"
+        tiempo += 1
+        vertice.f = tiempo
+
 def controladora():
     g1 = Grafo(0)
     v1 = ["a", "b", "c", "d", "e", "f", "g", "h"]
@@ -83,26 +119,9 @@ def controladora():
     g1.dfsImprimir()
     print("Orden topologico:", g1.ordenT, "\n")
 
-    g2 = Grafo(0)
-    v2 = g1.ordenT
-    a2 = [["b", "a"], ["c", "b"], ["f", "b"], ["e", "b"], ["a", "e"], 
-        ["f", "e"], ["d", "c"], ["c", "d"], ["g", "c"], ["g", "f"], 
-        ["f", "g"], ["h", "d"], ["h", "g"], ["h", "h"]]
-
-    for i in v2:
-        g2.agregarVertice(i)
-    
-    for i in range(len(a2)):
-        g2.agregarArista(a2[i][0], a2[i][1])
-
-    g2.imprimirGrafo()
-    g2.dfs()
-    g2.dfsImprimir()
-    print("Orden topologico:", g2.ordenT, "\n")
-
-    lista = g2.componentesFuertementeConexas()
-
-    print("Componentes fuertemente conexas:", lista)
-
+    scc_list = g1.obtenerComponentesFuertementeConexas()
+    print("Componentes fuertemente conexas:")
+    for idx, scc in enumerate(scc_list):
+        print(f"SCC {idx + 1}: {scc}")
 
 controladora()
